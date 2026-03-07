@@ -11,7 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/metricas", metricasRoutes);
+app.use("/api/overview", metricasRoutes);
 app.use("/api/adquisicion", adquisicionRoutes);
 app.use("/api/clasificacion", clasificacionRoutes);
 app.use("/api/preprocesado", preprocesadoRoutes);
