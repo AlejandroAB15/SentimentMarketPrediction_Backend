@@ -16,10 +16,14 @@ app.use("/api/adquisicion", adquisicionRoutes);
 app.use("/api/clasificacion", clasificacionRoutes);
 app.use("/api/preprocesado", preprocesadoRoutes);
 
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
-conectarMongo().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+conectarMongo()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Servidor ejecutándose en puerto ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Error conectando a MongoDB:", err);
   });
-});
