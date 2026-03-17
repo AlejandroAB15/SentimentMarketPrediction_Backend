@@ -72,3 +72,24 @@ export const obtenerMetricasModelo = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const obtenerResumenModelos = async (_: Request, res: Response) => {
+  try {
+    const data = await mongoose.connection
+      .collection("resumen_modelos")
+      .findOne({});
+
+    if (!data) {
+      return res.status(404).json({
+        error: "No se encontró el resumen de modelos"
+      });
+    }
+
+    res.json(data);
+
+  } catch (error) {
+    res.status(500).json({
+      error: "Error al obtener resumen de modelos"
+    });
+  }
+};
