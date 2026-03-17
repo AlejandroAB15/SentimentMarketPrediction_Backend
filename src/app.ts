@@ -5,6 +5,7 @@ import metricasRoutes from "./routes/metricas";
 import adquisicionRoutes from "./routes/adquisicion";
 import clasificacionRoutes from "./routes/clasificacion";
 import preprocesadoRoutes from "./routes/preprocesado";
+import prediccionRoutes from "./routes/prediccion"
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use("/api/overview", metricasRoutes);
 app.use("/api/adquisicion", adquisicionRoutes);
 app.use("/api/clasificacion", clasificacionRoutes);
 app.use("/api/preprocesado", preprocesadoRoutes);
+app.use("/api/prediccion", prediccionRoutes)
 
 const PORT = process.env.PORT || 4000;
 
