@@ -7,8 +7,9 @@ import {
 
 const router = Router();
 
+router.get("/resumen_modelos", obtenerResumenModelos);
 router.get("/:indice", obtenerPredicciones);
 router.get("/:indice/metricas", obtenerMetricasModelo);
-router.get("/prediccion/resumen_modelos", obtenerResumenModelos);
+
 
 export default router;
