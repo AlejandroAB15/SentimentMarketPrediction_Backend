@@ -26,7 +26,7 @@ export const obtenerMetricasModelo = async (req: Request, res: Response) => {
 
     const collection = mongoose.connection.collection("predicciones_modelo");
 
-    const calcularMAPE = async (campo: string) => {
+    const calcularMAPE = async (path: string) => {
       const result = await collection.aggregate([
         {
           $match: {
@@ -36,10 +36,11 @@ export const obtenerMetricasModelo = async (req: Request, res: Response) => {
         },
         {
           $project: {
+            pred: `$${path}`,
             error: {
               $abs: {
                 $divide: [
-                  { $subtract: ["$close_real", `$${campo}`] },
+                  { $subtract: ["$close_real", `$${path}`] },
                   "$close_real"
                 ]
               }
@@ -57,13 +58,22 @@ export const obtenerMetricasModelo = async (req: Request, res: Response) => {
       return result[0]?.mape * 100 || 0;
     };
 
-    const mapeGeneral = await calcularMAPE("pred_general");
-    const mapeEspecifico = await calcularMAPE("pred_especifico");
+    const mapeGeneralBase = await calcularMAPE("modelos.general.base.pred");
+    const mapeGeneralPond = await calcularMAPE("modelos.general.ponderado.pred");
+
+    const mapeEspecificoBase = await calcularMAPE("modelos.especifico.base.pred");
+    const mapeEspecificoPond = await calcularMAPE("modelos.especifico.ponderado.pred");
 
     res.json({
       indice,
-      mape_general: Number(mapeGeneral.toFixed(2)),
-      mape_especifico: Number(mapeEspecifico.toFixed(2))
+      general: {
+        base: Number(mapeGeneralBase.toFixed(2)),
+        ponderado: Number(mapeGeneralPond.toFixed(2))
+      },
+      especifico: {
+        base: Number(mapeEspecificoBase.toFixed(2)),
+        ponderado: Number(mapeEspecificoPond.toFixed(2))
+      }
     });
 
   } catch (error) {
