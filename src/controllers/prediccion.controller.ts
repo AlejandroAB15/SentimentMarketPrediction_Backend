@@ -40,8 +40,8 @@ export const obtenerMetricasModelo = async (req: Request, res: Response) => {
             error: {
               $abs: {
                 $divide: [
-                  { $subtract: ["$close_real", `$${path}`] },
-                  "$close_real"
+                  { $subtract: ["$close_real_7", `$${path}`] },
+                  "$close_real_7"
                 ]
               }
             }
